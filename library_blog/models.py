@@ -25,3 +25,24 @@ class BookModel(models.Model):
         
     def __str__(self):
         return self.title
+    
+    
+class Review(models.Model):
+    GRADE = (
+        ("⭐", "⭐"),
+        ("⭐⭐", "⭐⭐"),
+        ("⭐⭐⭐", "⭐⭐⭐"),
+        ("⭐⭐⭐⭐", "⭐⭐⭐⭐"),
+        ("⭐⭐⭐⭐⭐", "⭐⭐⭐⭐⭐")
+    )
+    book = models.ForeignKey(BookModel, on_delete=models.CASCADE, related_name="reviews")
+    created_at = models.DateField(auto_now_add=True)
+    text_review = models.TextField(verbose_name="Напишите комментарий")
+    grade = models.CharField(max_length=100, choices=GRADE, verbose_name="Поставь оценку книге", default="Не указано") 
+    
+    def __str__(self):
+        return f'{self.book} -- {self.grade}'
+    
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"    
