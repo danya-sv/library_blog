@@ -1,11 +1,11 @@
 {% load static %}
 {% include "components/header.html" %}
 <link rel="stylesheet" href="{% static "main_page/show_detail.css" %}">
-<!-- Контент с информацией о книге -->
+
 <div class="container mt-4">
     <div class="book-card">
         <div class="card">
-            <img src="{{ book.id.image.url }}" class="card-img-top" alt="Книга">
+            <img src="{{ book_id.image.url }}" class="card-img-top" alt="Книга">
             <div class="card-body">
                 <h5 class="card-title">{{ book_id.title }}</h5>
                 <p class="card-text">{{ book_id.description }}</p>
@@ -22,13 +22,19 @@
     <!-- Блок для комментариев -->
     <div class="comment-section">
         <h5>Комментарии</h5>
-        {% for i in book_id.reviews.all %}
-        <div class="comment">
-            <p> {{ i.created_at }}: {{ i.text_review }} <strong>Оценка:</strong> {{ i.grade }}</p>
-        </div>
+        {% for review in reviews %}
+            <div class="comment">
+                <p>{{ review.created_at }}: {{ review.text_review }} <strong>Оценка:</strong> {{ review.grade }}</p>
+            </div>
         {% endfor %}
-     
+
+        <h5>Добавить комментарий:</h5>
+        <form method="post">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button type="submit">Оставить комментарий</button>
+        </form>
     </div>
 </div>
-    
+
 {% include "components/footer.html" %}

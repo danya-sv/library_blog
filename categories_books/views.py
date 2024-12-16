@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from . import models
 
-#все книги 
+
 def all_books(request):
     if request.method == 'GET':
         books = models.Book.objects.all().order_by("-id")
@@ -11,7 +11,7 @@ def all_books(request):
                       context=context
                       )
         
-#книги для детей
+
 def books_for_children(request):
     if request.method == 'GET':
         books_child = models.Book.objects.filter(tags__name="Книги для детей").order_by("-id")
@@ -22,7 +22,7 @@ def books_for_children(request):
             context=context
         )
         
-#книги для подростков
+
 def books_for_adolescents(request):
     if request.method == 'GET':
         books_adolescents = models.Book.objects.filter(tags__name="Книги для подростков").order_by("-id")
@@ -32,8 +32,7 @@ def books_for_adolescents(request):
             template_name="tags/books_for_adolescents.html",
             context=context
         )
-            
-#книги для молодежи
+
 
 def books_for_young_adults(request):
     if request.method == 'GET':
@@ -45,7 +44,7 @@ def books_for_young_adults(request):
             context=context
         )
         
-#книги для пенсионеров
+
 
 def books_for_pensioners(request):
     if request.method == 'GET':
@@ -58,4 +57,3 @@ def books_for_pensioners(request):
         )
 
     
-

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список заказов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        a {
+            text-decoration: none;
+            color: #3498db;
+            margin-left: 15px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .create-order {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .create-order:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Список заказов</h1>
+
+    <div class="container">
+        <ul>
+            {% for basket in basket_list %}
+                <li>
+                    {{ basket.name }} - {{ basket.book }}
+                    <a href="{% url 'basket_detail' basket.id %}">Подробнее</a>
+                    <a href="{% url 'update_basket' basket.id %}">Редактировать</a>
+                    <a href="{% url 'delete_basket' basket.id %}">Удалить</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'create_basket' %}" class="create-order">Создать заказ</a>
+    </div>
+
+</body>
+</html>
