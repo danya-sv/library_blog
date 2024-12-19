@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удалить?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button[type="submit"] {
+            background-color: #e74c3c;
+            color: white;
+        }
+        button[type="submit"]:hover {
+            background-color: #c0392b;
+        }
+        button a {
+            text-decoration: none;
+            color: white;
+        }
+        button a {
+            display: inline-block;
+            background-color: #2ecc71;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        button a:hover {
+            background-color: #27ae60;
+        }
+        button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <form method="POST">
+        {% csrf_token %}
+        <h1>Точно удалить??</h1>
+        <button type="submit">ДА</button>
+        <button><a href="{% url 'basket_list' %}">НЕТ</a></button>
+    </form>
+</div>
+
+</body>
+</html>

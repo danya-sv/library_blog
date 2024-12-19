@@ -1,63 +1,53 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
-from datetime import datetime
-from . import models
+from django.views.generic import ListView, DetailView, TemplateView
 from .models import BookModel
 from .forms import ReviewForm
+import datetime
 
+class BookListView(ListView):
+    model = BookModel
+    template_name = "book.html"
+    context_object_name = "book_list"
+    queryset = BookModel.objects.all().order_by("-id")
 
-def book_detail_view(request, id):
-    if request.method == "GET":
-        book_id = get_object_or_404(models.BookModel, id=id)
-        context = {
-            "book_id": book_id,
-        }
-        return render(request, template_name="book_detail.html", context=context)
+class BookDetailView(DetailView):
+    model = BookModel
+    template_name = "book_detail.html"
+    context_object_name = "book_id"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        book = self.get_object()
+        context['reviews'] = book.reviews.all()
+        context['review_form'] = ReviewForm()
 
-def book_list_view(request):
-    if request.method == "GET":
-        book_list = models.BookModel.objects.all().order_by("-id")
-        context = {
-            "book_list": book_list,
-        }
-        return render(request, template_name="book.html", context=context)
+        # If it's a POST request, handle the form submission
+        if self.request.method == "POST":
+            form = ReviewForm(self.request.POST)
+            if form.is_valid():
+                review = form.save(commit=False)
+                review.book = book
+                review.save()
+                return redirect('book_detail', id=book.id)
+        
+        return context
 
+class AboutView(TemplateView):
+    template_name = "about.html"
 
-def about(request):
-    if request.method == "GET":
+    def get(self, request, *args, **kwargs):
         return HttpResponse("Привет, меня зовут Даня, мне 17 лет!")
 
+class AboutPetView(TemplateView):
+    template_name = "about_pet.html"
 
-def about_pet(request):
-    if request.method == "GET":
+    def get(self, request, *args, **kwargs):
         return HttpResponse("У меня есть собака по кличке Нора. Ее порода - Малинуа")
 
+class SystemTimeView(TemplateView):
+    template_name = "system_time.html"
 
-def system_time(request):
-    if request.method == "GET":
+    def get(self, request, *args, **kwargs):
         current_time = datetime.now()
         return HttpResponse(f"Текущее время: {current_time}")
-
-
-def book_detail_view(request, id):
-    book = get_object_or_404(BookModel, id=id)
-
-    reviews = book.reviews.all()
-
-    if request.method == "POST":
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            review = form.save(commit=False)
-            review.book = book
-            review.save()
-            return redirect("book_detail", id=book.id)
-    else:
-        form = ReviewForm()
-
-    context = {
-        "book_id": book,
-        "review_form": form,
-        "reviews": reviews,
-    }
-    return render(request, "book_detail.html", context)

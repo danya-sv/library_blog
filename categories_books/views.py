@@ -1,59 +1,38 @@
-from django.shortcuts import render
-from . import models
+from django.views.generic import ListView
+from .models import Book
 
 
-def all_books(request):
-    if request.method == 'GET':
-        books = models.Book.objects.all().order_by("-id")
-        context = {'books': books}
-        return render(request,
-                      template_name="tags/all_books.html",
-                      context=context
-                      )
-        
 
-def books_for_children(request):
-    if request.method == 'GET':
-        books_child = models.Book.objects.filter(tags__name="Книги для детей").order_by("-id")
-        context = {'books_child': books_child}
-        return render(
-            request,
-            template_name="tags/books_for_children.html",
-            context=context
-        )
-        
-
-def books_for_adolescents(request):
-    if request.method == 'GET':
-        books_adolescents = models.Book.objects.filter(tags__name="Книги для подростков").order_by("-id")
-        context = {'books_adolescents': books_adolescents}
-        return render(
-            request,
-            template_name="tags/books_for_adolescents.html",
-            context=context
-        )
+class AllBooksView(ListView):
+    model = Book
+    template_name = "tags/all_books.html"
+    context_object_name = "books"
+    queryset = Book.objects.all().order_by("-id")
 
 
-def books_for_young_adults(request):
-    if request.method == 'GET':
-        books_young_adults = models.Book.objects.filter(tags__name="Книги для молодежи").order_by("-id")
-        context = {'books_young_adults': books_young_adults}
-        return render(
-            request,
-            template_name="tags/books_for_young_adults.html",
-            context=context
-        )
-        
+class BooksForChildrenView(ListView):
+    model = Book
+    template_name = "tags/books_for_children.html"
+    context_object_name = "books_child"
+    queryset = Book.objects.filter(tags__name="Книги для детей").order_by("-id")
 
 
-def books_for_pensioners(request):
-    if request.method == 'GET':
-        books_pensioners = models.Book.objects.filter(tags__name="Книги для пенсионеров").order_by("-id")
-        context = {'books_pensioners': books_pensioners}
-        return render(
-            request,
-            template_name="tags/books_for_pensioners.html",
-            context=context
-        )
+class BooksForAdolescentsView(ListView):
+    model = Book
+    template_name = "tags/books_for_adolescents.html"
+    context_object_name = "books_adolescents"
+    queryset = Book.objects.filter(tags__name="Книги для подростков").order_by("-id")
 
-    
+
+class BooksForYoungAdultsView(ListView):
+    model = Book
+    template_name = "tags/books_for_young_adults.html"
+    context_object_name = "books_young_adults"
+    queryset = Book.objects.filter(tags__name="Книги для молодежи").order_by("-id")
+
+
+class BooksForPensionersView(ListView):
+    model = Book
+    template_name = "tags/books_for_pensioners.html"
+    context_object_name = "books_pensioners"
+    queryset = Book.objects.filter(tags__name="Книги для пенсионеров").order_by("-id")
