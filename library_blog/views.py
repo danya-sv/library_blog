@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect 
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
 from .models import BookModel
@@ -21,17 +21,19 @@ class BookDetailView(DetailView):
         book = self.get_object()
         context['reviews'] = book.reviews.all()
         context['review_form'] = ReviewForm()
-
-        # If it's a POST request, handle the form submission
-        if self.request.method == "POST":
-            form = ReviewForm(self.request.POST)
-            if form.is_valid():
-                review = form.save(commit=False)
-                review.book = book
-                review.save()
-                return redirect('book_detail', id=book.id)
-        
         return context
+
+    def post(self, request, *args, **kwargs):
+        book = self.get_object()
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.book = book
+            review.save()
+            return redirect('book_detail', pk=book.pk)
+        context = self.get_context_data()
+        context['review_form'] = form
+        return self.render_to_response(context)
 
 class AboutView(TemplateView):
     template_name = "about.html"
@@ -51,3 +53,4 @@ class SystemTimeView(TemplateView):
     def get(self, request, *args, **kwargs):
         current_time = datetime.now()
         return HttpResponse(f"Текущее время: {current_time}")
+
