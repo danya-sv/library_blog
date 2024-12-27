@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Книги</title>
     <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #0078d4;
+            --secondary-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --transition: 0.4s ease;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,129 +24,91 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        ol {
-            list-style-type: none;
-            padding: 0;
-            max-width: 1000px;
-            width: 100%;
-            animation: slideIn 0.5s ease-in-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        li {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
             padding: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: popIn 0.5s ease-in-out;
         }
 
-        @keyframes popIn {
-            from {
-                transform: scale(0.95);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
+        .container {
+            display: grid;
+            gap: 20px;
+            max-width: 1200px;
+            width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
 
-        li:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        .book-card {
+            background-color: var(--card-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: 0 8px 30px var(--shadow-color);
+            transition: transform var(--transition), box-shadow var(--transition);
         }
 
-        h1 {
-            font-size: 1rem;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            animation: textFade 0.5s ease-in-out;
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px var(--shadow-color);
         }
 
-        @keyframes textFade {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .book-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
         }
 
-        .title {
+        .book-title {
+            font-size: 1.75rem;
             font-weight: bold;
-            font-size: 1.8rem;
-            color: #34495e;
+            color: var(--accent-color);
         }
 
-        .author {
+        .book-genre {
+            font-size: 1rem;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: var(--radius);
+        }
+
+        .book-details {
+            font-size: 1.25rem;
+            line-height: 1.8;
+        }
+
+        .book-author {
             font-style: italic;
-            color: #95a5a6;
+            color: var(--text-color);
         }
 
-        .genre {
-            color: #e74c3c;
-        }
-
-        .grade {
-            color: #27ae60;
-        }
-
-        hr {
-            border: none;
-            height: 1px;
-            background-color: #e0e0e0;
-            margin: 20px 0;
+        .book-grade {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-top: 12px;
         }
     </style>
 </head>
 
 <body>
-    <ol>
+    <div class="container">
         {% for i in knigogid %}
-        <li>
-            <h1 class="title">{{ i.title }}</h1>
-            <h1 class="author">{{ i.author }}</h1>
-            <h1 class="genre">{{ i.genre }}</h1>
-            <h1 class="grade">{{ i.grade }}</h1>
-        </li>
-        <hr>
+        <div class="book-card">
+            <div class="book-header">
+                <span class="book-title">{{ i.title }}</span>
+                <span class="book-genre">{{ i.genre }}</span>
+            </div>
+            <div class="book-details">
+                <p class="book-author">Автор: {{ i.author }}</p>
+                <p class="book-grade">Оценка: {{ i.grade }}</p>
+            </div>
+        </div>
         {% endfor %}
-    </ol>
+    </div>
 </body>
 
 </html>

@@ -1,82 +1,118 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Форма парсинга</title>
     <style>
+        :root {
+            --bg-color: #f4f4f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #0078d4;
+            --secondary-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --transition: 0.4s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-        }
-        .form-container {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
+        }
+
+        .form-container {
+            background-color: var(--card-color);
+            border-radius: var(--radius);
+            box-shadow: 0 8px 30px var(--shadow-color);
+            padding: 30px;
             width: 100%;
             max-width: 400px;
+            transition: transform var(--transition), box-shadow var(--transition);
         }
+
+        .form-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px var(--shadow-color);
+        }
+
         h1 {
             text-align: center;
-            color: #333;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
+
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
+
         label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: bold;
-            color: #555;
+            color: var(--text-color);
         }
+
         input, textarea, select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
+            padding: 12px;
+            border: 1px solid var(--secondary-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
             box-sizing: border-box;
         }
+
         button {
             width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
+            padding: 12px;
+            background-color: var(--accent-color);
             color: white;
             border: none;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: var(--radius);
+            font-size: 1rem;
             cursor: pointer;
+            transition: background-color var(--transition);
         }
+
         button:hover {
-            background-color: #45a049;
+            background-color: #005bb5;
         }
+
         .error-message {
             color: #e74c3c;
-            font-size: 14px;
+            font-size: 0.875rem;
             margin-top: 10px;
         }
     </style>
 </head>
-<body>
 
+<body>
     <div class="form-container">
         <h1>Начать Парсинг</h1>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            
+
             <div class="form-group">
                 {{ form.as_p }}
             </div>
-            
+
             <button type="submit">Начать Парсинг</button>
         </form>
     </div>
-
 </body>
+
 </html>
