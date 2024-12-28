@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ collection.name }}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .recipe-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recipe-list li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .recipe-list li:hover {
+            background-color: #e9ecef;
+        }
+
+        .recipe-list a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        .recipe-list a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            width: max-content;
+            margin-top: 20px;
+        }
+
+        .back-link:hover {
+            background-color: #218838;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ collection.name }}</h1>
+    </header>
+
+    <div class="container">
+        <h2>Рецепты в этой коллекции</h2>
+        
+        {% if collection.recipes.all %}
+        <ul class="recipe-list">
+            {% for recipe in collection.recipes.all %}
+            <li>
+                <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Нет рецептов в этой коллекции.</p>
+        {% endif %}
+        
+        <a href="{% url 'collection_list' %}" class="back-link">К коллекциям</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Все права защищены</p>
+    </footer>
+</body>
+</html>

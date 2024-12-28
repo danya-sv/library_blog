@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список рецептов</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #6c757d;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .recipe-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recipe-list li {
+            background-color: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .recipe-list li:hover {
+            transform: scale(1.05);
+        }
+
+        .recipe-list a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .recipe-list a:hover {
+            color: #0056b3;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #6c757d;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        p {
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Список рецептов</h1>
+    </header>
+
+    <div class="container">
+        <p><strong>Всего рецептов:</strong> {{ recipes.count }}</p>
+        <ul class="recipe-list">
+            {% for recipe in recipes %}
+            <li>
+                <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Все права защищены</p>
+    </footer>
+</body>
+</html>
